@@ -1,0 +1,25 @@
+		int[] layers = new int[] {16, 4};
+		NeuralNetwork net = new NeuralNetwork(layers);
+		ArrayList<TrainingData> data = TrainingData.testTraining;
+		//data.get(0).input.printMatrix();
+		//data.get(1).expect.printMatrix();
+		net.train(data, 113, 10000);
+//		net.printNetworkWeights();
+//		net.printNetworkBiases();
+//		net.feedForward(data.get(0).input).printMatrix();
+//		net.feedForward(data.get(1).input).printMatrix();
+//		net.feedForward(data.get(2).input).printMatrix();
+//		net.feedForward(data.get(3).input).printMatrix();
+//		net.feedForward(data.get(4).input).printMatrix();
+//		net.feedForward(data.get(5).input).printMatrix();
+		//0.0022005375791633733   0.1
+		//2.0579826496370732E-4   1
+		//4.0478998465814396E-5   5
+		//2.0155506183305628E-5   10
+		//1.7087114594663785E-7   100
+		//2.0207766025173147E-7   110
+		//0.9999997722308281      120
+		//4.184118491247995E-7    112
+		//4.5076586351144086E-7   113
+		//1.547973891029776E-7    114
+		
