@@ -1,7 +1,9 @@
 package com.ray.neuralnetwork;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
@@ -11,6 +13,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
+
+import com.ray.neuralnetwork.NeuralNetwork.WBPair;
 
 
 @SpringBootApplication
@@ -40,22 +44,46 @@ public class NeuralnetworkApplication implements CommandLineRunner{
 		net.printNetworkWeights();
 		net.printNetworkBiases();
 		*/
+		/*
+		NeuralNetwork net = null;
+		try
+		  {
+		     FileInputStream fileIn = new FileInputStream("/Users/wanghaochen/Desktop/NN/Neural_Network_Warehouse/nn.ser");
+		     ObjectInputStream in = new ObjectInputStream(fileIn);
+		     net = (NeuralNetwork) in.readObject();
+		     in.close();
+		     fileIn.close();
+		  }catch(Exception i)
+		  {
+		     i.printStackTrace();
+		     
+		  }
+		ArrayList<TrainingData> trainData = Matrix.readData(env.getProperty("training.data"), env.getProperty("training.label"));
+		ArrayList<TrainingData> testData = Matrix.readData(env.getProperty("testing.data"), env.getProperty("testing.label"));
+		
+		net.test(trainData);
+		net.test(testData);
+		*/
+		
+		
 		
 		
 		ArrayList<TrainingData> trainData = Matrix.readData(env.getProperty("training.data"), env.getProperty("training.label"));
 		ArrayList<TrainingData> testData = Matrix.readData(env.getProperty("testing.data"), env.getProperty("testing.label"));
 
-		
-		
 		int[] layers = new int[]{784, 30, 10};
 		NeuralNetwork net = new NeuralNetwork(layers);
 		
-		//net.printNetworkBiases();
-
-		net.trainStochastic(trainData, 1000, 300000000, 30);
+		for (int i = 0; i < net.weights.size(); ++i) {
+			net.weights.set(i, net.weights.get(i).mult(0.01));
+		}
+		
+		net.test(testData);
+		net.trainStochasticSQC(trainData, testData, 60000, 3, 31);
 		net.test(testData);
 		
 		
+		/*
 		try{
 			 FileOutputStream fileOut =
 			 new FileOutputStream("/Users/wanghaochen/Desktop/NN/Neural_Network_Warehouse/nn.ser");
@@ -69,7 +97,7 @@ public class NeuralnetworkApplication implements CommandLineRunner{
 	    {
 	          i.printStackTrace();
 	    }
-	    
+	    */
 		/*int[] layers = new int[] {16, 4};
 		NeuralNetwork net = new NeuralNetwork(layers);
 		ArrayList<TrainingData> data = TrainingData.testTraining;

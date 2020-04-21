@@ -129,7 +129,7 @@ public class Matrix implements java.io.Serializable{
 		Matrix result = new Matrix(rowNum, colNum, false);
 		for (int i = 0; i < colNum; ++i) {
 			for (int j = 0; j < rowNum; ++j) {
-				result.setEntry(j, i, this.getEntry(j, i) + mat2.getEntry(j, i));
+				result.setEntry(j, i, (this.getEntry(j, i) + mat2.getEntry(j, i)));
 			}
 		}
 		return result;
@@ -219,6 +219,34 @@ public class Matrix implements java.io.Serializable{
 		return true;
 	}
 	
+	public boolean maxIndex(Matrix mat2) {
+		if ((rowNum != mat2.getRowNum()) || (colNum != mat2.getColNum())) {
+			return false;
+		}
+		int index1 = 0;
+		double max1 = Double.MIN_VALUE;
+		int index2 = 0;
+		double max2 = Double.MIN_VALUE;
+		int walker = 0;
+		for (int i = 0; i < rowNum; ++i) {
+			for (int j = 0; j < colNum; ++j) {
+				if (this.getEntry(i, j) > max1) {
+					index1 = walker;
+					max1 = this.getEntry(i, j);
+				}
+				if (mat2.getEntry(i, j) > max2) {
+					index2 = walker;
+					max2 = mat2.getEntry(i, j);
+				}
+				++walker;
+			}
+		}
+		if (index1 == index2) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 	public boolean closeTo(Matrix mat2) {
 		if ((rowNum != mat2.getRowNum()) || (colNum != mat2.getColNum())) {
 			return false;
@@ -275,6 +303,9 @@ public class Matrix implements java.io.Serializable{
             matrix.setLabel(labelInputStream.readUnsignedByte());
             for (int r = 0; r < nRows; r++) {
                 for (int c = 0; c < nCols; c++) {
+                	
+                	//matrix.setEntry(r, c, (((double)dataInputStream.readUnsignedByte()) - 128) / 128);
+                	
                     matrix.setEntry(r, c, ((double)dataInputStream.readUnsignedByte()) / 255);
                 }
             }
